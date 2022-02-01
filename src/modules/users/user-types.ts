@@ -6,3 +6,7 @@ export interface UserName {
 export interface User extends UserName {
     id: number;
 }
+
+export interface AddUser {
+    (userName: UserName): void;
+}
