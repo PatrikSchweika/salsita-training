@@ -1,9 +1,8 @@
 export interface UserName {
-    firstName: String;
-    lastName: String;
+    firstName: string;
+    lastName: string;
 }
 
-export interface User {
-    userName: UserName;
-    id: Number;
+export interface User extends UserName {
+    id: number;
 }
