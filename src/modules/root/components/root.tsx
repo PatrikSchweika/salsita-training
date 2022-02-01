@@ -1,10 +1,17 @@
-import React from 'react';
+import React, {FC} from 'react';
 import {Header} from './header'
 import {UserList} from "../../users/components/user-list";
+import {AddUser, User} from "../../users/user-types";
 
-export const Root = () => (
+interface RootProps {
+    title: string;
+    users: User[];
+    addUser: AddUser;
+}
+
+export const Root: FC<RootProps> = ({title, users, addUser}) => (
     <>
-        <Header title='User Management' />
-        <UserList />
+        <Header title={title} />
+        <UserList users={users} addUser={addUser} />
     </>
 )
