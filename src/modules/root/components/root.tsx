@@ -1,3 +1,10 @@
 import React from 'react';
+import {Header} from './header'
+import {UserList} from "../../users/components/user-list";
 
-export const Root = () => (<div>Hello world</div>)
+export const Root = () => (
+    <>
+        <Header title='User Management' />
+        <UserList />
+    </>
+)
