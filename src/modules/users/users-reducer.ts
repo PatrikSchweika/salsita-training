@@ -24,4 +24,4 @@ export const usersReducer: Reducer<UsersState, UserActions> = (state = initState
         default:
             return state;
     }
-}
+};
