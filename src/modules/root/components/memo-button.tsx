@@ -6,7 +6,7 @@ export const MemoButton = React.memo(
     (buttonProps : MemoButtonProps) => {
         console.log("Rendering button...");
         return (
-            <button onClick={buttonProps.onClick} >{buttonProps.value}</button>
+            <button onClick={buttonProps.onClick}>{buttonProps.children}</button>
         )
     }
 )

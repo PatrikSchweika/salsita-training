@@ -1,5 +1,6 @@
 import {RootState} from "../root/root-reducer";
 import {createSelector} from "reselect";
+import {User} from "./user-types";
 
 export const getUsersState = (state: RootState) => state.users;
 
@@ -8,7 +9,7 @@ export const getUsers = createSelector(
     (state) => state.users
 )
 
-export const getUserList = createSelector(
+export const getUsersInUpperCase = createSelector(
     getUsers,
-    (users) => users.map(user => `${user.firstName} ${user.lastName.toUpperCase()}`)
+    (users) => users.map((user: User) => ({...user, lastName: user.lastName.toUpperCase()}))
 )

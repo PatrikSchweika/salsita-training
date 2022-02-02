@@ -1,11 +1,11 @@
 import React, {FC, useCallback} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {usersActions} from "../users-slice";
-import {getUserList} from "../users-selectors";
+import {getUsersInUpperCase} from "../users-selectors";
 import {MemoButton} from "../../root/components/memo-button";
 
 export const UserList: FC = () => {
-    const userList = useSelector(getUserList);
+    const userList = useSelector(getUsersInUpperCase);
     const dispatch = useDispatch();
 
     const addUserOneCallback = useCallback(
@@ -20,19 +20,12 @@ export const UserList: FC = () => {
 
     return (
     <>
-        <MemoButton onClick={addUserOneCallback} value='Add No One'>Add No one</MemoButton>
-        <MemoButton onClick={addUserTwoCallback} value='Add Mother of Dragons'>Add Mother of Dragons</MemoButton>
+        <MemoButton onClick={addUserOneCallback}>Add No one</MemoButton>
+        <MemoButton onClick={addUserTwoCallback}>Add Mother of Dragons</MemoButton>
         {userList.length > 0 ? userList.map(user =>
-                <li>{user}</li>) :
+                <li>{user.firstName} {user.lastName}</li>) :
             <div>No Users</div>
         }
     </>
     );
 }
-
-// <button onClick={() => dispatch(usersActions.addUser({firstName: 'Arya', lastName: 'Stark'}))}>
-//     Add No One
-// </button>
-// <button onClick={() => dispatch(usersActions.addUser({firstName: 'Daenerys', lastName: 'Targaryen'}))}>
-//     Add Mother of Dragons
-// </button>
