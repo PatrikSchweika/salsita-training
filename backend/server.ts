@@ -1,5 +1,5 @@
 import express from 'express';
-import {User} from "../src/modules/users/user-types";
+import {User, UserName} from "../src/modules/users/user-types";
 
 const port = 3001;
 const app = express();
