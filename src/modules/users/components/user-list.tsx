@@ -3,9 +3,10 @@ import {useDispatch, useSelector} from "react-redux";
 import {usersActions} from "../users-slice";
 import {getUsersInUpperCase} from "../users-selectors";
 import {MemoButton} from "../../root/components/memo-button";
+import {User} from "../user-types";
 
 export const UserList: FC = () => {
-    const userList = useSelector(getUsersInUpperCase);
+    const userList: User[] = useSelector(getUsersInUpperCase);
     const dispatch = useDispatch();
 
     const addUserOneCallback = useCallback(
@@ -23,7 +24,7 @@ export const UserList: FC = () => {
         <MemoButton onClick={addUserOneCallback}>Add No one</MemoButton>
         <MemoButton onClick={addUserTwoCallback}>Add Mother of Dragons</MemoButton>
         {userList.length > 0 ? userList.map(user =>
-                <li>{user.firstName} {user.lastName}</li>) :
+                <li key={user.id}>{user.firstName} {user.lastName}</li>) :
             <div>No Users</div>
         }
     </>
