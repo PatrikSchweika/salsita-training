@@ -1,12 +1,10 @@
 import React, {FC} from 'react';
-import {Header, HeaderProps} from './header'
-import {UserList, UserListProps} from "../../users/components/user-list";
+import {Header} from './header'
+import {UserList} from "../../users/components/user-list";
 
-export type RootProps = HeaderProps & UserListProps;
-
-export const Root: FC<RootProps> = ({title, users, addUser}) => (
+export const Root: FC = () => (
     <>
-        <Header title={title} />
-        <UserList users={users} addUser={addUser} />
+        <Header />
+        <UserList />
     </>
 )
