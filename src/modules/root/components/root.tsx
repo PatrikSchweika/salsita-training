@@ -1,13 +1,8 @@
 import React, {FC} from 'react';
-import {Header} from './header'
-import {UserList} from "../../users/components/user-list";
-import {AddUser, User} from "../../users/user-types";
+import {Header, HeaderProps} from './header'
+import {UserList, UserListProps} from "../../users/components/user-list";
 
-interface RootProps {
-    title: string;
-    users: User[];
-    addUser: AddUser;
-}
+export interface RootProps extends HeaderProps, UserListProps {}
 
 export const Root: FC<RootProps> = ({title, users, addUser}) => (
     <>

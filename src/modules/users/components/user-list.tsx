@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import {AddUser, User} from "../user-types";
 
-interface UserListProps {
+export interface UserListProps {
     users: User[];
     addUser: AddUser;
 }
