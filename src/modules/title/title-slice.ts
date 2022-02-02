@@ -1,5 +1,5 @@
 import {Reducer} from "redux";
-import {createReducer} from "@reduxjs/toolkit";
+import {createSlice} from "@reduxjs/toolkit";
 
 interface TitleState {
     title: string;
@@ -7,4 +7,11 @@ interface TitleState {
 
 const initState: TitleState = { title: 'User Management' };
 
-export const titleReducer: Reducer<TitleState> = createReducer(initState, (builder) => {});
+const titleSlice = createSlice({
+    name: 'title',
+    initialState: initState,
+    reducers: {}
+});
+
+export const titleReducer = titleSlice.reducer;
+export const titleActions = titleSlice.actions;
