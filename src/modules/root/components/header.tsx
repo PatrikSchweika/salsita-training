@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 
-interface HeaderProps {
+export interface HeaderProps {
     title: string;
 }
 
@@ -33,5 +33,3 @@ export const Header = React.memo(({ title } : HeaderProps) =>
     console.log('Header is rendering...');
     return <h1>{title}</h1>;
 })
-
-

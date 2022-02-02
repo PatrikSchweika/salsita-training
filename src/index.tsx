@@ -1,37 +1,37 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Root } from './modules/root/components/root';
-import {AddUser, User, UserName} from "./modules/users/user-types";
+import {Root} from './modules/root/components/root';
+import {AddUser, UserName} from "./modules/users/user-types";
+import {compose, createStore} from "redux";
+import {rootReducer} from "./modules/root/root-reducer";
+import {UserActionCreators} from "./modules/users/user-actions";
 
-interface State {
-    readonly title: string;
-    readonly users: User[];
+declare global {
+    interface Window {
+        __REDUX_DEVTOOLS_EXTENSION__?: typeof compose
+    }
 }
 
-let state : State = {
-    title: 'User Management',
-    users: []
-}
-
-const addUser: AddUser = (userName: UserName) => {
-    const userToAdd = {
-        ...userName,
-        id: state.users.length
-    };
-
-    state = {
-        ...state,
-        users: [...state.users, userToAdd]
-    };
-
-    render();
-}
-
-const render = () => ReactDOM.render(
-    <React.StrictMode>
-        <Root title={state.title} users={state.users} addUser={addUser} />
-    </React.StrictMode>,
-    document.getElementById('root')
+const store = createStore(
+    rootReducer,
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
+
+const dispatchUser: AddUser = (userName: UserName) => {
+    store.dispatch(UserActionCreators.addUser(userName))
+}
+
+const render = () => {
+    const state = store.getState();
+
+    ReactDOM.render(
+        <React.StrictMode>
+            <Root title={state.title.title} users={state.users.users} addUser={dispatchUser} />
+        </React.StrictMode>,
+        document.getElementById('root')
+    );
+}
+
+store.subscribe(render);
 
 render();
