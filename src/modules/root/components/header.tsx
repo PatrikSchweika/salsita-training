@@ -1,35 +1,18 @@
 import React, {FC} from 'react';
+import {RootState} from "../root-reducer";
+import {connect, ConnectedProps} from "react-redux";
 
-export interface HeaderProps {
-    title: string;
-}
+const connector = connect((state: RootState) => ({
+    title: state.title.title
+}));
 
-// Component
-// export class Header extends React.Component<HeaderProps, any> {
-//     render = () => {
-//         console.log('Header is rendering...')
-//         return <h1>{this.props.title}</h1>;
-//     }
-// }
-
-// PureComponent
-// export class Header extends React.PureComponent<HeaderProps, any> {
-//     render = () => {
-//         console.log('Header is rendering...')
-//         return <h1>{this.props.title}</h1>;
-//     }
-// }
+type HeaderProps = ConnectedProps<typeof connector>;
 
 // Function
-// export const Header: FC<HeaderProps> = ({ title }) =>
-// {
-//     console.log('Header is rendering...');
-//     return <h1>{title}</h1>;
-// }
-
-// Function Memo
-export const Header = React.memo(({ title } : HeaderProps) =>
+const HeaderComponent: FC<HeaderProps> = ({ title }) =>
 {
     console.log('Header is rendering...');
     return <h1>{title}</h1>;
-})
+}
+
+export const Header = connector(HeaderComponent);
