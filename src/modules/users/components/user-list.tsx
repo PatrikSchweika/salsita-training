@@ -1,18 +1,25 @@
 import React, {FC} from 'react';
-import {AddUser, User} from "../user-types";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../../root/root-reducer";
+import {usersActions} from "../users-slice";
 
-export interface UserListProps {
-    users: User[];
-    addUser: AddUser;
-}
+export const UserList: FC = () => {
 
-export const UserList: FC<UserListProps> = ({users, addUser}) => (
+    const users = useSelector((state: RootState) => state.users.users);
+    const dispatch = useDispatch();
+
+    return (
     <>
-        <button onClick={() => addUser({firstName: 'Arya', lastName: 'Stark'})}>Add No One</button>
-        <button onClick={() => addUser({firstName: 'Daenerys', lastName: 'Targaryen'})}>Add Mother of Dragons</button>
+        <button onClick={() => dispatch(usersActions.addUser({firstName: 'Arya', lastName: 'Stark'}))}>
+            Add No One
+        </button>
+        <button onClick={() => dispatch(usersActions.addUser({firstName: 'Daenerys', lastName: 'Targaryen'}))}>
+            Add Mother of Dragons
+        </button>
         {users.length > 0 ? users.map(user =>
-            <li>{user.firstName} {user.lastName}</li>) :
+                <li>{user.firstName} {user.lastName}</li>) :
             <div>No Users</div>
         }
     </>
-)
+    )
+}
