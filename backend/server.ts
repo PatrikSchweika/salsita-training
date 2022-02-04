@@ -1,5 +1,5 @@
 import express from 'express';
-import {User, UserName} from "../src/modules/users/user-types";
+import {Skill, User, UserName, UserSkill} from "../src/modules/users/user-types";
 
 const port = 3001;
 const app = express();
@@ -7,32 +7,56 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-let users: User[] = [{id: 0, firstName: 'Donald', lastName: 'Trump'}];
+const skills: Skill[] = [{id: 'skill-0', name: 'Politics'},{id: 'skill-1', name: 'Sword Fighting'}, {id: 'skill-2', name: 'Dragon Riding'}];
+const users: User[] = [{id: 'user-0', firstName: 'Donald', lastName: 'Trump', regnalNumber: 1, skills: [{skill: skills[0], level: 9999}]}];
 
 app.get('/users', (req, res) => {
    res.json(users);
 });
 
+const isUserName = (userName: unknown): userName is UserName => (
+    typeof userName === 'object' &&
+       userName !== null &&
+       'firstName' in userName &&
+       'lastName' in userName
+);
+
 app.post('/users', (req, res) => {
-   const firstName = req.body.firstName;
-   const lastName = req.body.lastName;
+   const userName = req.body;
 
-   if (firstName === undefined || lastName === undefined) {
+   if (!isUserName(userName)) {
       res.sendStatus(400);
+      return;
    }
-   else {
-      const newUser: User = {
-         id: users.length,
-         firstName: firstName,
-         lastName: lastName
-      };
 
-      users = [...users, newUser];
+   const regnalNumber = users.filter(user =>
+       user.firstName === userName.firstName &&
+       user.lastName === userName.lastName).length + 1;
 
-      res.json(newUser);
+   const userSkills: UserSkill[] = []
+   const level = 3 * regnalNumber;
+
+   if (userName.firstName === 'Arya' && userName.lastName === 'Stark')
+   {
+      userSkills.push({ skill: skills[1], level: level})
    }
+   else if (userName.firstName === 'Daenerys' && userName.lastName === 'Targaryen')
+   {
+      userSkills.push({ skill: skills[2], level: level})
+   }
+
+   const newUser: User = {
+      id: `user-${users.length}`,
+      firstName: userName.firstName,
+      lastName: userName.lastName,
+      regnalNumber: regnalNumber,
+      skills: userSkills
+   };
+
+   users.push(newUser);
+   res.json(newUser);
 });
 
 app.listen(port, () =>
     console.log(`The server is running on port ${port}!`)
-)
+);
