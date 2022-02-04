@@ -1,14 +1,14 @@
 import {schema} from "normalizr";
-import Entity = schema.Entity;
+const {Entity} = schema;
 
-const skill = new Entity('skills');
+export const skill = new Entity('skills');
 
-const userSkill = new Entity('userSkills', {
+export const userSkill = new Entity('userSkills', {
     skill: skill
 }, {
-    idAttribute: (val) => `${val.parent.id}:${val.skill.id}`
+    idAttribute: (entity, parent) => `${parent.id}:${entity.skill.id}`
 });
 
-const user = new Entity('users', {
+export const user = new Entity('users', {
     skills: [userSkill]
 });

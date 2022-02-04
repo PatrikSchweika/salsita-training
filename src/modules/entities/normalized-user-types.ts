@@ -15,9 +15,7 @@ export interface NormUserSkill {
 }
 
 export interface UserEntities {
-    skills: {[key: string]: NormSkill};
-    userSkills: {[key: string]: NormUserSkill};
-    users: {[key: string]: NormUser};
+    skills: { [key: string]: NormSkill };
+    userSkills: { [key: string]: NormUserSkill };
+    users: { [key: string]: NormUser };
 }
-
-export type UserIds = string[];
