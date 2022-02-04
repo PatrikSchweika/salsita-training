@@ -4,5 +4,17 @@ export interface UserName {
 }
 
 export interface User extends UserName {
-    id: number;
+    id: string;
+    regnalNumber: number;
+    skills: UserSkill[];
+}
+
+export interface Skill {
+    id: string;
+    name: string;
+}
+
+export interface UserSkill {
+    skill: Skill;
+    level: number;
 }
