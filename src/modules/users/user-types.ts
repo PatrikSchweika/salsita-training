@@ -18,3 +18,5 @@ export interface UserSkill {
     skill: Skill;
     level: number;
 }
+
+export type UserIds = string[];
