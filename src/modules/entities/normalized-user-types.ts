@@ -1,17 +1,14 @@
-import {Skill, UserName} from "../users/user-types";
+import {Skill, User, UserSkill} from "../users/user-types";
 
 export type NormSkill = Skill;
 
-export interface NormUser extends UserName {
-    id: string;
-    regnalNumber: number;
+export interface NormUser extends Omit<User, 'skills'> {
     skills: string[];
 }
 
-export interface NormUserSkill {
+export interface NormUserSkill extends Omit<UserSkill, 'skill'> {
     id: string;
     skill: string;
-    level: number;
 }
 
 export interface UserEntities {

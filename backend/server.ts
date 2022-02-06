@@ -29,26 +29,29 @@ app.post('/users', (req, res) => {
       return;
    }
 
+   const firstName = userName.firstName;
+   const lastName = userName.lastName;
+
    const regnalNumber = users.filter(user =>
-       user.firstName === userName.firstName &&
-       user.lastName === userName.lastName).length + 1;
+       user.firstName === firstName &&
+       user.lastName === lastName).length + 1;
 
    const userSkills: UserSkill[] = []
    const level = 3 * regnalNumber;
 
-   if (userName.firstName === 'Arya' && userName.lastName === 'Stark')
+   if (firstName === 'Arya' && lastName === 'Stark')
    {
-      userSkills.push({ skill: skills[1], level: level})
+      userSkills.push({ skill: skills[1], level})
    }
-   else if (userName.firstName === 'Daenerys' && userName.lastName === 'Targaryen')
+   else if (firstName === 'Daenerys' && lastName === 'Targaryen')
    {
-      userSkills.push({ skill: skills[2], level: level})
+      userSkills.push({ skill: skills[2], level})
    }
 
    const newUser: User = {
       id: `user-${users.length}`,
-      firstName: userName.firstName,
-      lastName: userName.lastName,
+      firstName,
+      lastName,
       regnalNumber: regnalNumber,
       skills: userSkills
    };

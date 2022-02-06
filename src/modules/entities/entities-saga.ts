@@ -1,12 +1,11 @@
-import {User} from "../users/user-types";
-import {normalize} from "normalizr";
+import {normalize, Schema} from "normalizr";
 import {user} from "./entities-schema";
 import {put} from "redux-saga/effects";
 import {entitiesActions} from "./entities-slice";
-import {NormUser, UserEntities} from "./normalized-user-types";
+import {UserEntities} from "./normalized-user-types";
 
-export function* normalizeAndStore(data: User[]) {
-    const normData = normalize<NormUser, UserEntities, string[]>(data, [user]);
+export function* normalizeAndStore<T,R>(data: T, schema: Schema<T>) {
+    const normData = normalize<T, UserEntities, R>(data, schema);
 
     yield put(entitiesActions.entitiesUpdated(normData.entities));
 

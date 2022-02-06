@@ -20,30 +20,6 @@ export const getUserSkillEntities = createSelector(
     entities => entities.userSkills
 );
 
-
-export const getDenormUsers = createSelector(
-    getUserEntities,
-    getUserSkillEntities,
-    getSkillEntities,
-    (users, userSkills, skills) => _.mapValues(users, (user: NormUser) => ({
-        id: user.id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        regnalNumber: user.regnalNumber,
-        skills: user.skills.map(skillId =>
-            createUserSkillFromNorm(userSkills[skillId], skills))
-    }))
-)
-
-export const getDenormSkills = createSelector(
-    getSkillEntities,
-    skills => _.mapValues(skills, (skill: NormSkill) => ({
-                id: skill.id,
-                name: skill.name
-            }
-        ))
-);
-
 const createUserSkillFromNorm = (userSkill: NormUserSkill, skills: {[key:string]:NormSkill}) => ({
     skill: skills[userSkill.skill],
     level: userSkill.level
@@ -54,4 +30,16 @@ export const getDenormUserSkills = createSelector(
     getSkillEntities,
     (userSkills, skills) => _.mapValues(userSkills, (userSkill: NormUserSkill) =>
         createUserSkillFromNorm(userSkill, skills))
+);
+
+export const getDenormUsers = createSelector(
+    getUserEntities,
+    getDenormUserSkills,
+    (users, userSkills) => _.mapValues(users, (user: NormUser) => ({
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        regnalNumber: user.regnalNumber,
+        skills: user.skills.map(skill => userSkills[skill])
+    }))
 );

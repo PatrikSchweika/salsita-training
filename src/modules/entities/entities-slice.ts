@@ -19,7 +19,7 @@ const updateEntities: CaseReducer<EntitiesState, PayloadAction<EntitiesState>> =
 
 const entitiesSlice = createSlice({
     name: 'entities',
-    initialState: initialState,
+    initialState,
     reducers: {
         entitiesUpdated : updateEntities
     }
