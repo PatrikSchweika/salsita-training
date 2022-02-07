@@ -36,10 +36,7 @@ export const getDenormUsers = createSelector(
     getUserEntities,
     getDenormUserSkills,
     (users, userSkills) => _.mapValues(users, (user: NormUser) => ({
-        id: user.id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        regnalNumber: user.regnalNumber,
+        ...user,
         skills: user.skills.map(skill => userSkills[skill])
     }))
 );

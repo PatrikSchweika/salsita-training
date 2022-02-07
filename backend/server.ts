@@ -29,8 +29,7 @@ app.post('/users', (req, res) => {
       return;
    }
 
-   const firstName = userName.firstName;
-   const lastName = userName.lastName;
+   const {firstName, lastName} = userName;
 
    const regnalNumber = users.filter(user =>
        user.firstName === firstName &&
@@ -52,7 +51,7 @@ app.post('/users', (req, res) => {
       id: `user-${users.length}`,
       firstName,
       lastName,
-      regnalNumber: regnalNumber,
+      regnalNumber,
       skills: userSkills
    };
 
