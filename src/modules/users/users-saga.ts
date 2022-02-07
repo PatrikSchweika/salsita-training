@@ -1,12 +1,16 @@
 import {fork, takeEvery, call, put} from 'redux-saga/effects';
 import {usersActions} from "./users-slice";
 import {UsersEffects} from "./users-effects";
-import {User} from "./user-types";
+import {User, UserIds} from "./user-types";
+import {normalizeAndStore} from "../entities/entities-saga";
+import {user} from "../entities/entities-schema";
 
 function* getUsers() {
     try {
         const users: User[] = yield call(UsersEffects.getUsers);
-        yield put(usersActions.usersLoaded(users))
+        const userIds: UserIds = yield call(normalizeAndStore, users, [user]);
+        
+        yield put(usersActions.usersLoaded(userIds));
     }
     catch (e) {
         console.log('failed: ', e);

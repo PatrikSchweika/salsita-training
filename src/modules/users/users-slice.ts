@@ -1,19 +1,19 @@
 import {createAction, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {User, UserName} from "./user-types";
+import {User, UserIds, UserName} from "./user-types";
 
 interface UsersState {
-    users: User[];
+    userIds: UserIds;
 }
 
-const initState: UsersState = { users: [] };
+const initState: UsersState = { userIds: [] };
 
 const usersSlice = createSlice({
     name: 'users',
     initialState: initState,
     reducers: {
-        usersLoaded: (state, action: PayloadAction<User[]>) => ({
-                ...state,
-                users: action.payload
+        usersLoaded: (state, action: PayloadAction<UserIds>) => ({
+            ...state,
+            userIds: action.payload
         }),
     }
 });
