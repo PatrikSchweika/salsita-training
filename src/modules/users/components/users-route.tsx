@@ -19,13 +19,7 @@ export const UsersRoute: FC = () => {
     if (isCurrentRoute(usersListRoute))
         return <UserList />;
     else if (isCurrentRoute(userDetailRoute)) {
-        const id = currentRoute.params['id'] as string;
-
-        if (!id) {
-            throw new Error('User detail requires id parameter.');
-        }
-
-        return <UserDetail userId={id}/>;
+        return <UserDetail />;
     }
 
     throw new Error('Invalid user route');

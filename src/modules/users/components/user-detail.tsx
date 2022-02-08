@@ -6,11 +6,7 @@ import {RouterLink} from "../../root/components/router-link";
 import {usersListRoute} from "../../router/routes";
 import {usersActions} from "../users-slice";
 
-interface UserDetailProps {
-    userId: UserId;
-}
-
-export const UserDetail: FC<UserDetailProps> = (props) => {
+export const UserDetail: FC = () => {
     const user: User | undefined = useSelector(getDetailUser);
 
     const userDetail = user ?
