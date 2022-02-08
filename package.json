@@ -28,6 +28,8 @@
     "reselect": "^4.1.5",
     "roman-numerals": "^0.3.2",
     "router5": "^8.0.1",
+    "router5-helpers": "^8.0.0",
+    "router5-plugin-browser": "^8.0.1",
     "typescript": "^4.5.5",
     "web-vitals": "^2.1.4"
   },
