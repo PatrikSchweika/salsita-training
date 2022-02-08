@@ -1,6 +1,7 @@
-import React, {FC, useCallback} from "react";
+import React, {FC} from "react";
 import {useDispatch} from "react-redux";
 import {actions} from "redux-router5";
+import {router} from "../../../index";
 
 interface RouterLinkProps extends React.ButtonHTMLAttributes<HTMLAnchorElement> {
     routeName: string;
@@ -9,10 +10,11 @@ interface RouterLinkProps extends React.ButtonHTMLAttributes<HTMLAnchorElement> 
 
 export const RouterLink: FC<RouterLinkProps> = ({routeName, params, ...props}) => {
     const dispatch = useDispatch();
-    const navigateCallback = useCallback(
-        () => dispatch(actions.navigateTo(routeName, params)),
-    [dispatch]
-    );
 
-    return <a {...props} onClick={navigateCallback} />;
+    const onClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+        event.preventDefault();
+        dispatch(actions.navigateTo(routeName, params));
+    };
+
+    return <a {...props} href={router.buildUrl(routeName, params)} onClick={onClick} />;
 }

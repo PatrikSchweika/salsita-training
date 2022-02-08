@@ -11,7 +11,7 @@ import {router5Middleware} from "redux-router5";
 import {routes} from "./modules/router/routes";
 import browserPlugin from 'router5-plugin-browser';
 
-const router = createRouter(routes);
+export const router = createRouter(routes);
 router.usePlugin(browserPlugin());
 
 const routerMiddleware = router5Middleware(router);
@@ -24,7 +24,7 @@ const store = configureStore({
 });
 
 sagaMiddleware.run(rootSaga);
-router.start();
+router.start('/users');
 
 ReactDOM.render(
     <Provider store={store}>
