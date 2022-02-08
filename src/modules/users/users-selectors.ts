@@ -10,12 +10,23 @@ export const getUsersIds = createSelector(
     (state) => state.userIds
 );
 
+export const getDetailUserId = createSelector(
+    getUsersState,
+    (state) => state.detailUserId
+);
+
 export const getUsers = createSelector(
     getUsersIds,
     getDenormUsers,
     (userIds, users) => userIds.map(id => users[id])
 );
 
+
+export const getDetailUser = createSelector(
+    getDetailUserId,
+    getDenormUsers,
+    (id, users) => users[id]
+)
 
 export const getUsersList = createSelector(
     getUsers,
