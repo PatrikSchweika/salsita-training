@@ -14,6 +14,18 @@ app.get('/users', (req, res) => {
    res.json(users);
 });
 
+app.get('/users/:id', (req, res) => {
+   const id: string = req.params.id;
+   const user = users.find(user => user.id === id);
+
+   if (!user) {
+      res.sendStatus(404);
+      return;
+   }
+
+   res.json(user);
+});
+
 const isUserName = (userName: unknown): userName is UserName => (
     typeof userName === 'object' &&
        userName !== null &&
