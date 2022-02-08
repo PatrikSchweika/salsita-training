@@ -1,10 +1,10 @@
 import React, {FC} from 'react';
-import {Header} from './header'
-import {UserList} from "../../users/components/user-list";
+import {Header} from './header';
+import {UsersRoute} from "../../users/components/users-route";
 
 export const Root: FC = () => (
     <>
         <Header />
-        <UserList />
+        <UsersRoute />
     </>
 )
