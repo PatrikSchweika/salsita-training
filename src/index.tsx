@@ -24,7 +24,7 @@ const store = configureStore({
 });
 
 sagaMiddleware.run(rootSaga);
-router.start('/users');
+router.start();
 
 ReactDOM.render(
     <Provider store={store}>

@@ -1,9 +1,11 @@
 import {fork, takeEvery, call, put} from 'redux-saga/effects';
 import {usersActions} from "./users-slice";
 import {UsersEffects} from "./users-effects";
-import {User, UserId, UserIds} from "./user-types";
+import {Skill, SkillIds, User, UserId, UserIds} from "./user-types";
 import {normalizeAndStore} from "../entities/entities-saga";
-import {user} from "../entities/entities-schema";
+import {skill, user} from "../entities/entities-schema";
+import {actions} from "redux-router5";
+import {usersListRoute} from "../router/routes";
 
 export function* getUsers() {
     try {
@@ -29,9 +31,29 @@ export function* getUser(id: UserId) {
     }
 }
 
-function* addUser({payload}: ReturnType<typeof usersActions.addUser>) {
+export function* getSkills() {
     try {
-        yield call(UsersEffects.postUser, payload);
+        const skills: Skill[] = yield call(UsersEffects.getSkills);
+        const skillIds: SkillIds = yield call(normalizeAndStore, skills, [skill]);
+
+        yield put(usersActions.skillsLoaded(skillIds));
+    }
+    catch (e) {
+        console.log('failed: ', e);
+    }
+}
+
+function* saveUser({payload}: ReturnType<typeof usersActions.saveUser>) {
+    try {
+        if (payload.id) {
+            yield call(UsersEffects.updateUser, payload);
+            yield put(actions.navigateTo(usersListRoute));
+        }
+        else {
+            yield call(UsersEffects.postUser, payload);
+            yield put(actions.navigateTo(usersListRoute));
+        }
+
         yield fork(getUsers);
     }
     catch (e) {
@@ -40,5 +62,5 @@ function* addUser({payload}: ReturnType<typeof usersActions.addUser>) {
 }
 
 export function* usersSaga() {
-    yield takeEvery(usersActions.addUser, addUser);
+    yield takeEvery(usersActions.saveUser, saveUser);
 }

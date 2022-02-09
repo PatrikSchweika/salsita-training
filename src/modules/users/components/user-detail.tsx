@@ -1,27 +1,33 @@
 import React, {FC, useEffect} from "react";
 import {User, UserId} from "../user-types";
 import {useDispatch, useSelector} from "react-redux";
-import {getDetailUser} from "../users-selectors";
+import {getDetailUser, getSkills} from "../users-selectors";
 import {RouterLink} from "../../root/components/router-link";
-import {usersListRoute} from "../../router/routes";
+import {userCreateRoute, usersListRoute} from "../../router/routes";
 import {usersActions} from "../users-slice";
+import {UserForm, UserFormValues} from "./user-form";
+import {SubmitHandler} from "react-hook-form";
 
 export const UserDetail: FC = () => {
-    const user: User | undefined = useSelector(getDetailUser);
+    const user = useSelector(getDetailUser);
+    const skills = useSelector(getSkills);
+    const dispatch = useDispatch();
 
-    const userDetail = user ?
-        <>
-            <h2>Name: {user.firstName} {user.regnalNumber}. {user.lastName}</h2>
-            {user.skills.length === 0 ?
-                <div>No skills</div> :
-                <ul>{user.skills.map(skill => <li key={skill.skill.id}>Skill: {skill.skill.name} Level: {skill.level}</li>)}</ul>}
-        </>
-        : <h2>User is loading</h2>;
+    const onSubmit: SubmitHandler<UserFormValues> = (data) => {
+        console.log(data);
+
+        dispatch(usersActions.saveUser({
+            id: user.id,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            skills: data.skills
+        }));
+    };
 
     return (
         <>
-            <h1>User detail</h1>
-            {userDetail}
+            <h2>User edit</h2>
+            <UserForm onSubmit={onSubmit} skills={skills} user={user} key={user?.id} />
             <RouterLink routeName={usersListRoute}>Back to user list</RouterLink>
         </>
     );

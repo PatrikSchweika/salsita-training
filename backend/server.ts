@@ -1,5 +1,5 @@
 import express from 'express';
-import {Skill, User, UserName, UserSkill} from "../src/modules/users/user-types";
+import {Skill, User, UserName, UserSaveRequest, UserSkill} from "../src/modules/users/user-types";
 
 const port = 3001;
 const app = express();
@@ -26,6 +26,53 @@ app.get('/users/:id', (req, res) => {
    res.json(user);
 });
 
+const calculateRegnalNumber = ({ firstName, lastName }: UserName) =>
+    users.reduce((n) => n + 1, 0);
+
+const calculateSkillLevel = (regnalNumber: number) => regnalNumber * 3;
+
+app.patch('/users/:id', (req, res) => {
+   const id = req.params.id;
+   const userRequest = req.body as UserSaveRequest;
+
+   if (!userRequest) {
+      res.sendStatus(400);
+      return;
+   }
+
+   const user = users.find(user => user.id === id);
+
+   if (!user) {
+      res.sendStatus(404);
+      return;
+   }
+
+   const {firstName, lastName, skills: skillIds} = userRequest;
+
+   user.regnalNumber = calculateRegnalNumber(userRequest);
+   user.firstName = firstName;
+   user.lastName = lastName;
+   const level = calculateSkillLevel(user.regnalNumber);
+   user.skills = [];
+
+   skillIds.forEach(id => {
+      const skill = skills.find(skill => skill.id === id);
+
+      if (skill) {
+         user.skills.push({
+            skill: skill,
+            level
+         });
+      }
+   });
+
+   res.json(user);
+});
+
+app.get('/skills', (req, res) => {
+   res.json(skills);
+});
+
 const isUserName = (userName: unknown): userName is UserName => (
     typeof userName === 'object' &&
        userName !== null &&
@@ -34,30 +81,26 @@ const isUserName = (userName: unknown): userName is UserName => (
 );
 
 app.post('/users', (req, res) => {
-   const userName = req.body;
+   const userRequest = req.body as UserSaveRequest;
 
-   if (!isUserName(userName)) {
+   if (!userRequest) {
       res.sendStatus(400);
       return;
    }
 
-   const {firstName, lastName} = userName;
+   const {firstName, lastName, skills: skillIds} = userRequest;
 
-   const regnalNumber = users.filter(user =>
-       user.firstName === firstName &&
-       user.lastName === lastName).length + 1;
-
+   const regnalNumber = calculateRegnalNumber(userRequest);
    const userSkills: UserSkill[] = []
-   const level = 3 * regnalNumber;
+   const level = calculateSkillLevel(regnalNumber);
 
-   if (firstName === 'Arya' && lastName === 'Stark')
-   {
-      userSkills.push({ skill: skills[1], level})
-   }
-   else if (firstName === 'Daenerys' && lastName === 'Targaryen')
-   {
-      userSkills.push({ skill: skills[2], level})
-   }
+   skillIds.forEach(id => {
+      const skill = skills.find(skill => skill.id === id);
+
+      if (skill) {
+         userSkills.push({skill, level});
+      }
+   });
 
    const newUser: User = {
       id: `user-${users.length}`,
