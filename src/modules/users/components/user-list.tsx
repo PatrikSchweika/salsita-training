@@ -5,26 +5,15 @@ import {getUsersList} from "../users-selectors";
 import {MemoButton} from "../../root/components/memo-button";
 import {User} from "../user-types";
 import {RouterLink} from "../../root/components/router-link";
-import {userDetailRoute} from "../../router/routes";
+import {userCreateRoute, userDetailRoute} from "../../router/routes";
 
 export const UserList: FC = () => {
     const userList: User[] = useSelector(getUsersList);
-    const dispatch = useDispatch();
-
-    const addUserOneCallback = useCallback(
-        () => dispatch(usersActions.addUser({firstName: 'Arya', lastName: 'Stark'})),
-        [dispatch]
-    );
-
-    const addUserTwoCallback = useCallback(
-        () => dispatch(usersActions.addUser({firstName: 'Daenerys', lastName: 'Targaryen'})),
-        [dispatch]
-    );
 
     return (
     <>
-        <MemoButton onClick={addUserOneCallback}>Add No one</MemoButton>
-        <MemoButton onClick={addUserTwoCallback}>Add Mother of Dragons</MemoButton>
+        <h2>User list</h2>
+        <div><RouterLink routeName={userCreateRoute}>Add new user</RouterLink></div>
         <ul>
         {userList.length > 0 ?
             userList.map(user =>
