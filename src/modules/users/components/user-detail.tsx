@@ -17,7 +17,7 @@ export const UserDetail: FC = () => {
         console.log(data);
 
         dispatch(usersActions.saveUser({
-            id: user!.id,
+            id: user.id,
             firstName: data.firstName,
             lastName: data.lastName,
             skills: data.skills

@@ -27,9 +27,7 @@ app.get('/users/:id', (req, res) => {
 });
 
 const calculateRegnalNumber = ({ firstName, lastName }: UserName) =>
-    users.filter(user =>
-       user.firstName === firstName &&
-       user.lastName === lastName).length + 1;
+    users.reduce((n) => n + 1, 0);
 
 const calculateSkillLevel = (regnalNumber: number) => regnalNumber * 3;
 
